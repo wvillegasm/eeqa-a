@@ -1,0 +1,17 @@
+{
+  "name": "eqa-hexagonal-mvp",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Hexagonal MVP proving non-blocking study processing with mocked DB2, T2T18 and S3 adapters.",
+  "type": "module",
+  "main": "src/main.js",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/main.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
