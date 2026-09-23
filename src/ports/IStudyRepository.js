@@ -9,6 +9,13 @@ import { NotImplementedError } from './NotImplementedError.js';
  */
 export class IStudyRepository {
   /**
+   * @returns {Promise<Study[]>} Every study currently in PENDING.
+   */
+  async getPendingStudies() {
+    throw new NotImplementedError('IStudyRepository.getPendingStudies');
+  }
+
+  /**
    * @param {string} id
    * @returns {Promise<Study>} Rejects when the study does not exist.
    */

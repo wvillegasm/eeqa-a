@@ -1,6 +1,6 @@
 # SPEC 01 — Hexagonal MVP for Non-Blocking Study Processing
 
-> **Status:** Approved
+> **Status:** Implemented
 > **Depends on:** None
 > **Date:** 2026-09-22
 > **Objective:** Build a hexagonal-architecture Node.js MVP that processes a study through mocked DB2, T2T18 and S3 adapters using streams, proving the event loop never blocks under heavy I/O.
