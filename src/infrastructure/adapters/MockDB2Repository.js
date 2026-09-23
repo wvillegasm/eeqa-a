@@ -1,6 +1,6 @@
 import { setTimeout as sleep } from 'node:timers/promises';
 import { IStudyRepository } from '../../ports/IStudyRepository.js';
-import { Study } from '../../domain/entities/Study.js';
+import { Study, StudyStatus } from '../../domain/entities/Study.js';
 
 /**
  * Counting semaphore modelling the DB2 connection pool. Waiters are served FIFO.
@@ -82,6 +82,17 @@ export class MockDB2Repository extends IStudyRepository {
   /** Highest `inFlight` value observed since construction. */
   get peakInFlight() {
     return this.#peakInFlight;
+  }
+
+  /**
+   * @returns {Promise<Study[]>}
+   */
+  async getPendingStudies() {
+    return this.#withConnection(() =>
+      [...this.#studies.values()]
+        .filter((study) => study.status === StudyStatus.PENDING)
+        .map((study) => new Study({ ...study })),
+    );
   }
 
   /**
