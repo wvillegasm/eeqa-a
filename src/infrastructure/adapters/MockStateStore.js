@@ -53,6 +53,18 @@ export class MockStateStore extends IStateStore {
   }
 
   /**
+   * @param {string} batchId
+   * @param {import('../../domain/entities/StudyState.js').LifecycleStatusValue} status
+   * @returns {Promise<StateDocument[]>}
+   */
+  async findByBatch(batchId, status) {
+    return [...this.#documents.values()]
+      .map((raw) => JSON.parse(raw))
+      .filter((doc) => doc.batchId === batchId && doc.status === status)
+      .sort((a, b) => a.updatedAt - b.updatedAt);
+  }
+
+  /**
    * @param {string} studyId
    * @param {ArtifactMeta} artifactMeta
    * @returns {Promise<StateDocument>}

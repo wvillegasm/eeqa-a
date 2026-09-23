@@ -31,6 +31,15 @@ export class IStateStore {
   }
 
   /**
+   * @param {string} batchId
+   * @param {import('../domain/entities/StudyState.js').LifecycleStatusValue} status
+   * @returns {Promise<StateDocument[]>} Documents of that batch currently in `status`, oldest update first.
+   */
+  async findByBatch(batchId, status) {
+    throw new NotImplementedError('IStateStore.findByBatch');
+  }
+
+  /**
    * @param {string} studyId
    * @param {ArtifactMeta} artifactMeta
    * @returns {Promise<StateDocument>}
