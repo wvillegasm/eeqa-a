@@ -28,7 +28,7 @@ export class MockStateStore extends IStateStore {
 
   /**
    * @param {string} studyId
-   * @param {Partial<Pick<StateDocument, 'batchId' | 'ssn' | 'status'>>} patch
+   * @param {Partial<Pick<StateDocument, 'batchId' | 'runId' | 'ssn' | 'status'>>} patch
    * @returns {Promise<StateDocument>}
    */
   async createOrUpdateState(studyId, patch) {
@@ -36,6 +36,7 @@ export class MockStateStore extends IStateStore {
       this.#load(studyId) ??
       new StudyState({ studyId, batchId: patch.batchId, ssn: patch.ssn, at: this.#now() });
     if (patch.batchId !== undefined) state.batchId = patch.batchId;
+    if (patch.runId !== undefined) state.runId = patch.runId;
     if (patch.ssn !== undefined) state.ssn = patch.ssn;
     if (patch.status !== undefined && patch.status !== state.status) {
       state.transitionTo(patch.status, this.#now());

@@ -69,6 +69,8 @@ export class StudyState {
   studyId;
   /** @type {string} */
   batchId;
+  /** @type {string | null} Run that claimed the study. */
+  runId;
   /** @type {string} */
   ssn;
   /** @type {LifecycleStatusValue} */
@@ -86,10 +88,12 @@ export class StudyState {
    * @param {string} props.batchId
    * @param {string} props.ssn
    * @param {number} props.at - Creation time, epoch ms.
+   * @param {string | null} [props.runId]
    */
-  constructor({ studyId, batchId, ssn, at }) {
+  constructor({ studyId, batchId, ssn, at, runId = null }) {
     this.studyId = studyId;
     this.batchId = batchId;
+    this.runId = runId;
     this.ssn = ssn;
     this.status = PENDING;
     this.artifact = null;
@@ -181,6 +185,7 @@ export class StudyState {
     return {
       studyId: this.studyId,
       batchId: this.batchId,
+      runId: this.runId,
       ssn: this.ssn,
       status: this.status,
       artifact: this.artifact ? { ...this.artifact } : null,
@@ -199,6 +204,7 @@ export class StudyState {
     const state = new StudyState({
       studyId: json.studyId,
       batchId: json.batchId,
+      runId: json.runId ?? null,
       ssn: json.ssn,
       at: json.history[0]?.at ?? json.updatedAt,
     });

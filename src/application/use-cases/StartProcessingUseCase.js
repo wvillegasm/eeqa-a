@@ -119,6 +119,7 @@ export class StartProcessingUseCase {
       if (await this.#stateStore.getState(study.id)) continue;
       await this.#stateStore.createOrUpdateState(study.id, {
         batchId: run.batchId,
+        runId: run.runId,
         ssn: study.ssn,
         status: LifecycleStatus.PROCESSING,
       });

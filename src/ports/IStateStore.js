@@ -15,7 +15,7 @@ export class IStateStore {
    * in the patch goes through the domain transition rules.
    *
    * @param {string} studyId
-   * @param {Partial<Pick<StateDocument, 'batchId' | 'ssn' | 'status'>>} patch
+   * @param {Partial<Pick<StateDocument, 'batchId' | 'runId' | 'ssn' | 'status'>>} patch
    * @returns {Promise<StateDocument>}
    */
   async createOrUpdateState(studyId, patch) {
