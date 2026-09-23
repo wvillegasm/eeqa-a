@@ -1,6 +1,6 @@
 # SPEC 01-A — eQA Async Lifecycle Contract
 
-> **Status:** Draft
+> **Status:** Implemented
 > **Depends on:** SPEC 01, SPEC 02
 > **Date:** 2026-09-23
 > **Objective:** Define the API/state orchestration and transfer lifecycle required to implement the missing eQA processing flow, guaranteeing the asynchronous contract, state transitions, and verification path are explicit before code is written.
