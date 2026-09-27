@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "eQA-API System Architecture",
+    "output": "eqa-system-architecture.html",
+    "locale": "en",
+    "quality_profile": "showcase"
+  },
+  "components": [
+    {
+      "id": "scheduler",
+      "type": "external",
+      "label": "Cron / Task Scheduler",
+      "sublabel": "Batch trigger",
+      "pos": [60, 330],
+      "size": [170, 76]
+    },
+    {
+      "id": "driver",
+      "type": "backend",
+      "label": "Windows Driver",
+      "sublabel": "Node.js · 2 concurrent workers",
+      "pos": [280, 330],
+      "size": [190, 76]
+    },
+    {
+      "id": "disk",
+      "type": "database",
+      "label": "Local Disk",
+      "sublabel": "\\samples\\ssn...jar",
+      "pos": [280, 560],
+      "size": [190, 76]
+    },
+    {
+      "id": "ingress",
+      "type": "cloud",
+      "label": "Load Balancer / Ingress",
+      "sublabel": "API entry point",
+      "pos": [560, 330],
+      "size": [190, 76]
+    },
+    {
+      "id": "api",
+      "type": "backend",
+      "label": "eqa-api",
+      "sublabel": "Node.js / Express · DB2 pool 26–30",
+      "pos": [820, 330],
+      "size": [210, 76]
+    },
+    {
+      "id": "s3",
+      "type": "cloud",
+      "label": "AWS S3",
+      "sublabel": "STATE.JSON and WIP",
+      "pos": [1130, 180],
+      "size": [180, 76]
+    },
+    {
+      "id": "db2",
+      "type": "database",
+      "label": "IBM DB2 (MQA)",
+      "sublabel": "Initial state K",
+      "pos": [1130, 330],
+      "size": [180, 76]
+    },
+    {
+      "id": "t2t16",
+      "type": "external",
+      "label": "T2/T16 Info Service",
+      "sublabel": "SSN records and data",
+      "pos": [1130, 480],
+      "size": [190, 76]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Client Execution Layer",
+      "wraps": ["scheduler", "driver", "disk"],
+      "pad": 28
+    },
+    {
+      "kind": "region",
+      "label": "API Orchestration Layer (PaaS)",
+      "wraps": ["ingress", "api"],
+      "pad": 28
+    },
+    {
+      "kind": "region",
+      "label": "Storage & State Tier",
+      "wraps": ["s3"],
+      "pad": 24
+    },
+    {
+      "kind": "region",
+      "label": "Enterprise Data & Legacy Tier",
+      "wraps": ["db2", "t2t16"],
+      "pad": 24
+    }
+  ],
+  "connections": [
+    {
+      "id": "scheduled-trigger",
+      "from": "scheduler",
+      "to": "driver",
+      "label": "scheduled batch trigger",
+      "variant": "emphasis",
+      "labelDy": 62
+    },
+    {
+      "id": "driver-http",
+      "from": "driver",
+      "to": "ingress",
+      "label": "HTTP calls",
+      "variant": "emphasis",
+      "labelDy": 62
+    },
+    {
+      "id": "ingress-forward",
+      "from": "ingress",
+      "to": "api",
+      "label": "forward requests",
+      "labelDy": 62
+    },
+    {
+      "id": "api-db2-query",
+      "from": "api",
+      "to": "db2",
+      "label": "query eligible cases",
+      "labelDy": 62,
+      "labelDx": -60
+    },
+    {
+      "id": "api-info-fetch",
+      "from": "api",
+      "to": "t2t16",
+      "label": "fetch SSN data"
+    },
+    {
+      "id": "api-s3-state",
+      "from": "api",
+      "to": "s3",
+      "label": "manage state and WIP"
+    },
+    {
+      "id": "s3-driver-stream",
+      "from": "s3",
+      "to": "driver",
+      "label": "stream files"
+    },
+    {
+      "id": "driver-disk-write",
+      "from": "driver",
+      "to": "disk",
+      "label": "physical write",
+      "labelDy": 24
+    }
+  ]
+}
